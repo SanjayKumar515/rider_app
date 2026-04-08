@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 
 export const auth = async (req, res) => {
   const { phone, role } = req.body;
+  console.log("RECEIVED BODY:", req.body);
 
   if (!phone) {
     throw new BadRequestError("Phone number is required");

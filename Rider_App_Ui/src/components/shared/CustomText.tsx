@@ -15,9 +15,6 @@ const fontSizes = {
     h7: 10,
     h8: 9
 }
-
-
-
 const CustomText: FC<CustomTextProps> = ({
     variant = 'h6',
     style,
@@ -33,7 +30,7 @@ const CustomText: FC<CustomTextProps> = ({
                 styles.text,
                 {
                     fontSize: RFValue(fontSize ? fontSize : fontSizes[variant]),
-                    fontFamily: fontFamily
+                    fontFamily: `NotoSans-${fontFamily}`,
                 },
                 style
             ]}
