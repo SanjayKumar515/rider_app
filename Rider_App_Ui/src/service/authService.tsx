@@ -29,8 +29,8 @@ export const signin = async (
       resetAndNavigate("/rider/riderHome");
     }
     // Backend returns access_token and refresh_token
-    tokenStorage.set("access_token", res.data.access_token);
-    tokenStorage.set("refresh_token", res.data.refresh_token);
+    await tokenStorage.set("access_token", res.data.access_token);
+    await tokenStorage.set("refresh_token", res.data.refresh_token);
     upDateAccessToken();
   } catch (error: any) {
     Alert.alert("Oh ! Dang there was an error");
@@ -44,7 +44,7 @@ export const logout = async (disconnect?: () => void) => {
   const { clearData } = useUserStore.getState();
   const { clearRiderData } = useRiderStore.getState();
 
-  tokenStorage.clearAll();
+  await tokenStorage.clearAll();
   clearData();
   clearRiderData();
   resetAndNavigate("/role");

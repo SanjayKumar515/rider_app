@@ -29,8 +29,8 @@ const Main = () => {
   const [hasNavigated, setHasNavigated] = useState(false)
 
   const tokenCheck = async () => {
-    const access_token = tokenStorage.getString('access_token')
-    const refresh_token = tokenStorage.getString('refresh_token')
+    const access_token = await tokenStorage.getString('access_token')
+    const refresh_token = await tokenStorage.getString('refresh_token')
     if (access_token && refresh_token) {
       const decodedAccessToken = jwtDecode<DecodedToken>(access_token);
       const decodedRefreshToken = jwtDecode<DecodedToken>(refresh_token);

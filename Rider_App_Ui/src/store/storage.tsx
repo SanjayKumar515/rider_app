@@ -1,27 +1,33 @@
-import { createMMKV } from 'react-native-mmkv';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+export const tokenStorage = {
+    set: async (key: string, value: string) => {
+        await AsyncStorage.setItem(`token-${key}`, value);
+    },
+    getString: async (key: string) => {
+        return await AsyncStorage.getItem(`token-${key}`);
+    },
+    clearAll: async () => {
+        const keys = await AsyncStorage.getAllKeys();
+        const tokenKeys = keys.filter(k => k.startsWith('token-'));
+        await Promise.all(tokenKeys.map(key => AsyncStorage.removeItem(key)));
+    }
+};
 
-export const tokenStorage = createMMKV({
-    id: 'token-storage',
-    encryptionKey: 'some-secret-key',
-})
-
-export const storage = createMMKV({
-    id: 'my-app-storage',
-    encryptionKey: 'some-secret-key',
-})
+export const storage = AsyncStorage;
 
 export const mmkvStorage = {
-    setItem: (key: string, value: string) => {
-        storage.set(key, value)
+    setItem: async (key: string, value: string) => {
+        await AsyncStorage.setItem(key, value);
     },
-    getItem: (key: string) => {
-        return storage.getString(key) ?? null;
+    getItem: async (key: string) => {
+        const value = await AsyncStorage.getItem(key);
+        return value ?? null;
     },
-    removeItem: (key: string) => {
-        storage.remove(key)
+    removeItem: async (key: string) => {
+        await AsyncStorage.removeItem(key);
     },
-    clear: () => {
-        storage.clearAll()
+    clear: async () => {
+        await AsyncStorage.clear();
     }
-}
+};

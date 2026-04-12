@@ -25,10 +25,13 @@ export const WSProvider: React.FC<{ children: React.ReactNode }> = ({
     const socket = useRef<Socket | any>(null);
 
     useEffect(() => {
-        const token = tokenStorage.getString("access_token");
-        if (token) {
-            setSocketAccessToken(token);
-        }
+        const getToken = async () => {
+            const token = await tokenStorage.getString("access_token");
+            if (token) {
+                setSocketAccessToken(token);
+            }
+        };
+        getToken();
     }, []);
 
     useEffect(() => {
@@ -72,8 +75,8 @@ export const WSProvider: React.FC<{ children: React.ReactNode }> = ({
         socket.current?.removeListener(listenerName);
     };
 
-    const updateAccessToken = () => {
-        const token = tokenStorage.getString("access_token");
+    const updateAccessToken = async () => {
+        const token = await tokenStorage.getString("access_token");
         if (token) {
             setSocketAccessToken(token);
         }
